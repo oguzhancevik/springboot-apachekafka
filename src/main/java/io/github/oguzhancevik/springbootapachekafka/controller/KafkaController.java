@@ -2,6 +2,7 @@ package io.github.oguzhancevik.springbootapachekafka.controller;
 
 import io.github.oguzhancevik.springbootapachekafka.model.KafkaModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,11 @@ public class KafkaController {
   @PostMapping
   public void post(@RequestBody KafkaModel kafkaModel){
     kafkaTemplate.send("myTopic", kafkaModel);
+  }
+
+  @KafkaListener(topics = "myTopic")
+  public void getFromKafka(KafkaModel kafkaModel){
+    System.out.println(kafkaModel);
   }
 
 }
